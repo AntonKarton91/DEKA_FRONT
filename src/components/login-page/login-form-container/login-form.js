@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
-
-
+import './login-form-container.css'
+import FormContent from "../form-content/formContent";
+import {registerFormItems, loginFormItems}  from './constants'
+import Button from "./buttons/button";
 
 
 function RegLogForm(){
@@ -14,25 +16,27 @@ function RegLogForm(){
         setForm(formType = 'log')
     }
 
-    function showForm(){
+    function ShowForm(){
         if (formType === 'reg'){
             return (
-                <>regForm</>
+                <FormContent  data={registerFormItems}/>
             )
         } else {
             return (
-                <>logForm</>
+                <FormContent  data={loginFormItems}/>
             )
         }
     }
 
 
     return(
-        <>
-            <button onClick={showRegForm}>Регистрация</button>
-            <button onClick={showLogForm}>Авторизация</button>
-            {showForm()}
-        </>
+            <div className='form-container'>
+                <div className='buttons'>
+                    <Button onClick={showRegForm}>РЕГИСТРАЦИЯ</Button>
+                    <Button onClick={showLogForm}>АВТОРИЗАЦИЯ</Button>
+                </div>
+                <ShowForm />
+            </div>
     )
 
 }

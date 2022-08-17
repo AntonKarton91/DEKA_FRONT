@@ -1,0 +1,17 @@
+.form-container{
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    top: calc(50% - 200px);
+    left: calc(50% - 200px);
+    background: #405dc6;
+    padding: 20px;
+}
+
+.buttons{
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

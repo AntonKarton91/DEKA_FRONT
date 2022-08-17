@@ -1,0 +1,33 @@
+.header_search-field{
+    width: 150px;
+    height: 25px;
+    border: 1px solid #8d8787;
+    background-color: #6B7381;
+    border-radius: 5px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+input{
+    height: 25px;
+    background: transparent;
+    outline: none;
+    border: none;
+    margin: auto;
+    color: white;
+}
+
+input:focus::-webkit-input-placeholder{
+    transition: 0.2s all;
+    color: transparent;
+}
+
+input::-webkit-input-placeholder{
+    color: white;
+    font-size: 10px;
+}
+
+.white{
+    color: white;
+}

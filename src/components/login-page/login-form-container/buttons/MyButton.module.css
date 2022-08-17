@@ -1,0 +1,14 @@
+.formButton{
+    border-radius: 5px;
+    outline: none;
+    padding: 5px;
+    font-size: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+
+.submit-button{
+    background-color: #2d3e7a;
+}

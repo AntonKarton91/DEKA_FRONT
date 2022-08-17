@@ -1,0 +1,10 @@
+.header_menu-item{
+    color: #fff;
+    cursor: pointer;
+    margin-right: 15px;
+    transition: 0.5s all;
+}
+
+.header_menu-item:hover{
+    color: #b8b3b3;
+}

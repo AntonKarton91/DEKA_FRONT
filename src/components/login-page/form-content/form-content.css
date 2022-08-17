@@ -1,0 +1,24 @@
+.form-content{
+    animation: 1s forwards;
+    transition: 1s all;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.form-input{
+    margin: 10px auto;
+    height: 35px;
+    width: 250px;
+    background: white;
+    border-radius: 8px;
+    text-align: center;
+    outline: none;
+    border: none;
+}
+
+.form-input::-webkit-input-placeholder{
+    color: rgba(0, 0, 0, .3);
+
+}
