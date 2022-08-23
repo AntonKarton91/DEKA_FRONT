@@ -55,10 +55,10 @@ const TableColumn = (props) => {
                     {columnName}
                 </div>
 
-                <div className='task-list'>
-                    <TaskList/>
-                </div>
-                <NewTaskForm showForm = { isNewForm } clearForm = { clearForm } addTask = { addTask }/>
+                {/*<div className='task-list'>*/}
+                {/*    <TaskList/>*/}
+                {/*</div>*/}
+                {/*<NewTaskForm showForm = { isNewForm } clearForm = { clearForm } addTask = { addTask }/>*/}
                 <NewTask/>
             </div>
 
