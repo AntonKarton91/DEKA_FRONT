@@ -4,7 +4,7 @@ import './header-profile.css'
 const HeaderProfile = () => {
     return (
         <div>
-            <img src={profileImage} alt=""/>
+            <img className='image' src={profileImage} alt=""/>
         </div>
     );
 };

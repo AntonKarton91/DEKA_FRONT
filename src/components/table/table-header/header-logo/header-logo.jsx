@@ -5,7 +5,7 @@ import logoImage from '../../../../static/images/logo.ico'
 
 const HeaderLogo = () => {
     return (
-            <img src={logoImage} alt=""/>
+            <img className='header_logo' src={logoImage} alt=""/>
     );
 };
 

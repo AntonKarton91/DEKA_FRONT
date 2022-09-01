@@ -1,21 +1,23 @@
 import React, {useState} from 'react';
-import ParticipantLogo from "../participant-logo/ParticipantLogo";
+// import ParticipantLogo from "../participant-logo/ParticipantLogo";
+import classes from './participant-list.module.css';
 
-const ParticipantList = ({list, userList}) => {
 
-
+const ParticipantList = ({list, allUserList}) => {
 
     function List() {
-        return list.map(part=>{
-
-           const a = userList.find(item =>item.id === part.id)
-            console.log(part.id, a.url )
-           return <ParticipantLogo alt={ part.id } url={ a.url }/>
-        })
+       return allUserList.map(item => {
+        if(list.includes(item.id)){
+            return <div >
+                <img className={classes.part_icon} src={item.url} alt="" key={item.id}/>
+                </div>
+        }
+       })
     }
 
     return (
-        <div>
+        <div className={classes.list}>
+            
             <List/>
         </div>
     );

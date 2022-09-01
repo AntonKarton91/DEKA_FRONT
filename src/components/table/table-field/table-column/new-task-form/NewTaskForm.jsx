@@ -12,7 +12,8 @@ export default function NewTaskForm({showForm, clearForm, addTask}) {
             const desk = {
                 id: Date.now(),
                 name: newTaskDescription,
-                participants: []
+                participants: [],
+                marks: []
             }
             addTask(desk)
             clear()

@@ -2,28 +2,33 @@ import React, {useEffect, useState} from 'react';
 import './table-column.css'
 import TaskPreview from "../task-preview/TaskPreview";
 import NewTaskForm from "./new-task-form/NewTaskForm";
+import { useDispatch } from 'react-redux';
+import { addTaskToColumnAction } from '../../../../actions/actionCreaters';
 
 const TableColumn = (props) => {
+    const dispatch = useDispatch()
     const colName = props.item.columnName
     const [isNewForm, setIsNewForm] = useState(false)
     const [columnName, setColumnName] = useState(colName)
     const [data, setData] = useState(props.item.taskList)
+    const colID = props.item.id
 
 
     const TaskList = () => {
         return data.map((dat, index) => {
             return(
-                <TaskPreview name={dat} key={dat.id} userList={props.userList}/>
+                <TaskPreview colID={props.item.id} taskListData={dat}  key={dat.id} />
             )
         })
     }
 
 
-
     function addTask (name) {
-        setData([...data, name])
-        console.log(name, props.item.id)
-        props.addTask(name, props.item.id)
+        const payload = {
+            id: colID,
+            name
+        }
+        dispatch(addTaskToColumnAction(payload))
     }
 
     function clearForm(){
@@ -55,10 +60,10 @@ const TableColumn = (props) => {
                     {columnName}
                 </div>
 
-                {/*<div className='task-list'>*/}
-                {/*    <TaskList/>*/}
-                {/*</div>*/}
-                {/*<NewTaskForm showForm = { isNewForm } clearForm = { clearForm } addTask = { addTask }/>*/}
+                <div className='task-list'>
+                   <TaskList/>
+                </div>
+                <NewTaskForm showForm = { isNewForm } clearForm = { clearForm } addTask = { addTask }/>
                 <NewTask/>
             </div>
 
