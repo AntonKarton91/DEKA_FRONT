@@ -11,11 +11,12 @@
     margin: 10px auto;
     height: 35px;
     width: 250px;
-    background: white;
+    background: #6B7381;
     border-radius: 8px;
     text-align: center;
     outline: none;
-    border: none;
+    border: 1px solid #b2afaf;
+
 }
 
 .form-input::-webkit-input-placeholder{

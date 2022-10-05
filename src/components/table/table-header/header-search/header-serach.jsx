@@ -3,7 +3,6 @@ import './header-search.css'
 const HeaderSearch = () => {
     const [searchPlaceholder, setSearchPlaceholder] = useState('Поиск')
 
-    console.log(searchPlaceholder)
 
     return (
     <div className='header_search-field'>

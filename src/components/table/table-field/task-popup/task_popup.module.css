@@ -29,6 +29,7 @@
 }
 
 .popup_logo{
+    margin-left: 8px;
     font-weight: bold;
     font-size: 14px;
     color: #3F506C;
@@ -57,7 +58,10 @@
 }
 
 .popup_options{
+    max-width: 100%;
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 .popup_part_logo{
@@ -78,7 +82,20 @@
     border-radius: 3px;
     position: absolute;
     top: 27px;
-    left: 0px;
+    left: 0;
+    width: 150px;
+    min-height: 100px;
+    background-color: white;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.5);
+    padding: 5px;
+    display: none;
+}
+
+.popup_add_mark_form{
+    border-radius: 3px;
+    position: absolute;
+    top: 27px;
+    left: 0;
     width: 150px;
     min-height: 100px;
     background-color: white;
@@ -93,18 +110,84 @@
     align-items: center;
     justify-content: center;
     margin-right: 2px;
-    width: 22px;
-    height: 22px;;
-    border-radius: 50%;
+    /*border-radius: 50%;*/
 }
 
-.is_shown{
-    display: block;
-}
+
 
 .form_part_list{
     margin-top: 5px;
     display: flex;
     flex-wrap: wrap;
+}
+
+.option_container{
+    max-width: 50%;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.popup_mark_logo{
+    max-width: 100px;
+    height: 22px;
+    background-color: #ef4f4f;
+    border-radius: 4px;
+    color: white;
+    display: flex;
+    align-items: center;
+    margin-right: 3px;
+    padding: 3px;
+}
+
+.popup_mark_plus{
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 2px;
+    width: 22px;
+    height: 22px;;
+    border-radius: 4px;
+    background-color: rgb(225, 228, 230);
+    padding: 4px;
+    font-size: 10px;
+}
+
+.describeContainer{
+    margin: 8px;
+    width: 95%;
+    min-height: 60px;
+}
+
+.describeTitle{
+    font-weight: bold;
+    margin: 15px 0 3px 5px;
+    color: #646363;
+    margin-left: 5px;
+}
+
+.descriptionBody{
+    padding: 2px;
+    min-height: 20px;
+}
+
+.popup_date{
+    padding: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-width: 100px;
+    height: 22px;
+    background-color: rgb(225, 228, 230);
+    border-radius: 4px;
+}
+
+
+
+
+.is_shown{
+    display: block;
+    z-index: 200;
 }
 

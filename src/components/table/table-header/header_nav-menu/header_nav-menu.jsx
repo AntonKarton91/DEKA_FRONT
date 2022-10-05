@@ -1,20 +1,35 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import HeaderMenuItem from "./header_menu-item/header_menu-item";
-
 import './header_nav-menu.css'
-const HeaderNavMenu = () => {
+import {useSelector} from "react-redux";
 
-    const [menu, setMenu] = useState([
-        {name: 'Рабочие пространства'},
-        {name: 'Недавние'},
-        {name: 'В избранном'},
-        {name: 'Шаблоны'},
+
+const HeaderNavMenu = () => {
+    const isAuth = useSelector(state => state.Auth.authToken)
+    const [linkList, setLinkList] = useState([
+                                                {name: 'Авторизация', link: '/login'},
     ])
+
+
+    useEffect(() => {
+        if(isAuth){
+            setLinkList([
+                {name: 'Рабочие пространства', link: '/'},
+                {name: 'Недавние', link: '/'},
+                {name: 'В избранном', link: '/'},
+            ])
+        } else {
+            setLinkList([
+                {name: 'Авторизация', link: '/login'},
+            ])
+        }
+    }, [isAuth])
+
 
     const Menu = () => {
         return (
-            menu.map((item, index) => {
-                return <HeaderMenuItem key={item.name}>{item.name}</HeaderMenuItem>
+            linkList.map((item, index) => {
+                return <HeaderMenuItem key={item.name} date={item}>{item.name}</HeaderMenuItem>
             })
         )
     }

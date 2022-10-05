@@ -1,12 +1,13 @@
 import React from 'react';
 import './header-menu-item.css'
+import { Link } from 'react-router-dom'
 
 
-const HeaderMenuItem = ({children}) => {
+const HeaderMenuItem = ({children, date}) => {
     return (
-        <div className='header_menu-item'  >
+        <Link to={date.link} className='header_menu-item'  >
             {children}
-        </div>
+        </Link>
     );
 };
 

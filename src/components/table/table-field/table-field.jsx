@@ -1,18 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import './table-field.css'
+import '../../../styles/app-styles.scss'
 import TableColumn from "./table-column/tableColumn";
-import bgImage from '../../../static/images/bg.jpg'
+import bgImage from '../../../static/images/bg1.jpg'
 import {useDispatch, useSelector} from "react-redux";
-import { addColumnAction } from '../../../actions/actionCreaters';
+import {addColumnAction, fetchMarksListAction} from '../../../actions/actionCreaters';
 import AddColumnButton from './add-column-button/addColumnButton';
 import TaskPopup from './task-popup/TaskPopup';
-import {logDOM} from "@testing-library/react";
+import {fetchList, postNewColumn} from "../../../actions/asyncActions/listData";
+import {fetchUsersList} from "../../../actions/asyncActions/usersData";
+import {fetchMarksList} from "../../../actions/asyncActions/marksData";
 
 const TableField = () => {
     const dispatch = useDispatch()
     const columnList = useSelector(state => state.list)
-    const taskPopup = useSelector(state => state.taskPopup)
+    const taskPopup = useSelector(state => state.task)
 
+    useEffect(() => {
+        dispatch(fetchList())
+        dispatch(fetchUsersList())
+        dispatch(fetchMarksList())
+    }, [])
 
     function ColumnList() {
         return  columnList.map((item, index) => {
@@ -21,7 +28,7 @@ const TableField = () => {
 
     function addColumn() {
         const i = {columnName: 'Новая колонка', id: Math.random(), taskList: []}
-        dispatch(addColumnAction(i))
+        dispatch(postNewColumn(i))
     }
 
     return (

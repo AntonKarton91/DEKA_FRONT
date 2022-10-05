@@ -5,16 +5,23 @@ import HeaderLogo from "./header-logo/header-logo";
 import HeaderNavMenu from "./header_nav-menu/header_nav-menu";
 import HeaderSearch from "./header-search/header-serach";
 import HeaderProfile from "./header-profile/header-profile";
+import {useSelector} from "react-redux";
 
 const TableHeader = () => {
+    const isAuth = useSelector(state => state.Auth.authToken)
+    console.log(isAuth)
     return (
         <div className={'header-container'}>
             <HeaderLogo />
             <HeaderNavMenu />
-            <div className={'profile-container'}>
-                <HeaderSearch />
-                <HeaderProfile />
-            </div>
+            {isAuth ? (
+                <div className={'profile-container'}>
+                    <HeaderSearch/>
+                    <HeaderProfile/>
+                </div>
+            ) : null
+            }
+
         </div>
     );
 };

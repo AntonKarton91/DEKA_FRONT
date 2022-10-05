@@ -1,0 +1,13 @@
+.date{
+    text-align: center;
+    cursor: pointer;
+}
+
+.date:hover{
+    background-color: #b1b3b6;
+    color: white;
+}
+.activeDate{
+    color: white;
+    background-color: #42526E;
+}

@@ -1,0 +1,56 @@
+.mark{
+  color: white;
+  font-size: 10px;
+  margin-right: 3px;
+  margin-top: 3px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.calendar_header{
+  margin: 5px 0 5px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar__header_date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 110px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+
+.date{
+  text-align: center;
+  cursor: pointer;
+}
+
+.date:hover{
+  background-color: #42526E;
+  color: white;
+}
+
+.form_button{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.form_button:hover{
+  background-color: #313e54;
+}
+

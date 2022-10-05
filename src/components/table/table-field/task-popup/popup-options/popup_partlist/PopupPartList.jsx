@@ -6,30 +6,32 @@ import PopupAddPartForm from './popupAddPartForm';
 import PopupLogo from './popupLogo';
 
 
-const PopupPartList = ({}) => {
+
+
+
+const PopupPartList = ({fromGlobalTask, r}) => {
     const dispatch = useDispatch()
-    const participants = useSelector(state => state.taskPopup.participants)
-    const showPartAddForm = useSelector(state => state.taskPopup.showPartAddForm)
     const users = useSelector(state => state.users)
 
-    function ShowForm(){
+    function ShowForm(elem){
         dispatch(showPartAddFormAction())
+
     }
 
 
     return (
-        <div>
+        <div className={classes.option_container}>
             <div className={classes.right_menu__title}>Участники</div>
 
             <div className={classes.popup_options}>
                 {users.map(item => {
-                    if(participants.includes(item.id)){
+                    if(fromGlobalTask.participants.includes(item.id)){
                         return (<PopupLogo srcLogo={ item.url } key={item.id}/>)
                     }
                 })}
                 <div className={classes.plus}>
-                    <div onClick={ShowForm} className={classes.popup_part_logo} >+</div>
-                    <PopupAddPartForm />
+                    <div onClick={ ShowForm } className={classes.popup_part_logo} >+</div>
+                    <PopupAddPartForm r={r}/>
                 </div>
 
             </div>

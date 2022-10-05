@@ -1,0 +1,44 @@
+.container{
+    padding: 7px;
+    position: absolute;
+    top: 27px;
+    left: 0;
+    width: 180px;
+    height: 250px;
+    background-color: #f3f0f0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.5);
+}
+
+.input_container{
+    margin: 7px 0 7px 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.date_inp{
+    color: black;
+    border: 1px solid #0079BF;
+    background-color: white;
+    padding: 3px;
+    margin: 0 2px 0 2px;
+    border-radius: 2px;
+}
+.date_inp1{
+    box-sizing: border-box;
+    color: black;
+    width: 40px;
+    border: 1px solid #0079BF;
+    background-color: white;
+    padding: 3px;
+    margin: 0 2px 0 2px;
+    border-radius: 2px;
+}
+
+.is_shown_flex{
+    display: flex;
+}

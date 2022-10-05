@@ -4,9 +4,11 @@ import TableField from "../table-field/table-field";
 
 const TablePage = () => {
     return (
-        <div>
-            <TableHeader />
-            <TableField />
+        <div className='app-root'>
+            <div>
+
+                <TableField />
+            </div>
         </div>
     );
 };

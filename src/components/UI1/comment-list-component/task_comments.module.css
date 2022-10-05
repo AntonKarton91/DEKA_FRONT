@@ -1,0 +1,90 @@
+.list_container{
+    margin: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 95%;
+}
+
+.title{
+    font-weight: bold;
+    margin-bottom: 7px;
+    font-size: 13px;
+    color: #646363;
+    margin-left: 5px;
+}
+
+.item{
+    align-items: flex-start;
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.addFormContainer{
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 7px;
+}
+
+.commentInput{
+    min-width: 93%;
+    max-width: 93%;
+    width: 93%;
+    color: black;
+    background-color: white;
+    padding: 5px;
+    border: 1px solid #dcdbdb;
+    border-radius: 3px;
+    overflow-wrap: anywhere;
+}
+
+.forma{
+    width: 100%;
+}
+
+.saveButton{
+    padding: 2px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.saveButton:hover{
+    background-color: #c4c2c2;
+}
+
+.commentInput::placeholder{
+    color: #696767;
+}
+
+.image{
+    margin-right: 5px;
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+}
+
+.creater{
+    font-size: 12px;
+    margin-right: 15px;
+    font-weight: bold;
+}
+
+.inner{
+    width: 100%;
+}
+
+.date{
+    font-size: 10px;
+}
+
+.body{
+    padding: 5px;
+    border: 1px solid #dcdbdb;
+    border-radius: 3px;
+    margin-top: 5px;
+    min-width: 100%;
+    min-height: 20px;
+    background-color: white;
+}

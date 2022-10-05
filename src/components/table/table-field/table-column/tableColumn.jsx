@@ -2,8 +2,11 @@ import React, {useEffect, useState} from 'react';
 import './table-column.css'
 import TaskPreview from "../task-preview/TaskPreview";
 import NewTaskForm from "./new-task-form/NewTaskForm";
-import { useDispatch } from 'react-redux';
-import { addTaskToColumnAction } from '../../../../actions/actionCreaters';
+import {useDispatch, useSelector} from 'react-redux';
+import {addTaskToColumnAction, setCartAction} from '../../../../actions/actionCreaters';
+import {sortTasks} from "../../../../tools/tasks/sortTasks";
+import {logDOM} from "@testing-library/react";
+import {putNewTask} from "../../../../actions/asyncActions/listData";
 
 const TableColumn = (props) => {
     const dispatch = useDispatch()
@@ -14,8 +17,10 @@ const TableColumn = (props) => {
     const colID = props.item.id
 
 
+
+
     const TaskList = () => {
-        return data.map((dat, index) => {
+        return data.sort(sortTasks).map((dat) => {
             return(
                 <TaskPreview colID={props.item.id} taskListData={dat}  key={dat.id} />
             )
@@ -24,11 +29,12 @@ const TableColumn = (props) => {
 
 
     function addTask (name) {
+        name.taskPosition = data.length + 1
         const payload = {
             id: colID,
-            name
+            name,
         }
-        dispatch(addTaskToColumnAction(payload))
+        dispatch(putNewTask(payload))
     }
 
     function clearForm(){
@@ -47,19 +53,24 @@ const TableColumn = (props) => {
         }
     }
 
-
-
+    function dropHandler(e) {
+        e.preventDefault()
+        const targetCart = {
+            colID,
+            taskPosition: 0
+        }
+        dispatch(setCartAction({targetCart}))
+    }
 
 
     return (
         <div className='column-container'>
-            <div className='column'>
-                <div
-                    className='column-name'
-                >
+            <div className='column'
+                 draggable={true}
+                 onDragOver={(e) => dropHandler(e)}>
+                <div className='column-name'>
                     {columnName}
                 </div>
-
                 <div className='task-list'>
                    <TaskList/>
                 </div>
