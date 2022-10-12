@@ -1,17 +1,19 @@
 import axios from "axios";
 import {loginUserAction, refreshTokenAction} from "../actionCreaters";
+import jwt_decode from "jwt-decode";
 
 
 export const loginUser = (userData) => {
-
     return function (dispatch){
         axios.post("http://127.0.0.1:8000/api/token/", {
-            username: userData.email.value,
-            password: userData.password.value,
+            email: userData.email?.value || userData.email,
+            password: userData.password?.value || userData.password,
         })
             .then(response => {
                 if (response.status === 200) {
-                    localStorage.setItem('authTokens', JSON.stringify(response.data))
+                    localStorage.setItem('accessToken', response.data.access)
+                    localStorage.setItem('refreshToken', response.data.refresh)
+                    localStorage.setItem('userID', jwt_decode((response.data).access).user_id)
                     return dispatch(loginUserAction(response.data))
                 }
 
@@ -22,16 +24,16 @@ export const loginUser = (userData) => {
 }
 
 export const updateToken = (refresh) => {
-    console.log(refresh)
+    const r = {refresh: refresh}
+    console.log('to', r)
     return function (dispatch){
         axios.post("http://127.0.0.1:8000/api/token/refresh/", {
             refresh: refresh
         })
             .then(response => {
                 if (response.status === 200) {
-                    console.log(response.data)
-                    localStorage.setItem('authTokens', JSON.stringify(response.data))
-
+                    localStorage.setItem('accessToken', response.data.access)
+                    localStorage.setItem('refreshToken', response.data.refresh)
                     return dispatch(refreshTokenAction(response.data))
                 }
 

@@ -20,11 +20,11 @@ export const listReducer = (state = initialState, action) => {
             return [...state, action.payload]
 
         case ADD_TASK_TO_COLUMN: {
-            action.payload.name.date = new Date()
+            action.payload.date = new Date()
             return state.map(item => {
-                    if (item.id === action.payload.id) {
+                    if (item.id === action.payload.column) {
                         const i = item.taskList
-                        return {...item, taskList: [...i, action.payload.name]}
+                        return {...item, taskList: [...i, action.payload]}
                     }
                     return item
                 }
@@ -54,10 +54,12 @@ export const listReducer = (state = initialState, action) => {
         }
 
         case ADD_MARK_TO_TASK: {
+            console.log(state)
             let column = state.find(col => col.id === action.payload.colID)
             const tasks = column.taskList.map(task => {
                 let newTask
                 if(task.id === action.payload.taskID){
+
                     if (task.marks.includes(action.payload.markID)){
                         newTask = task.marks.filter(i => i !== action.payload.markID)
                     } else {
@@ -73,6 +75,7 @@ export const listReducer = (state = initialState, action) => {
                     return column
                 } else return col
             })
+            console.log(newState)
             return newState
         }
 

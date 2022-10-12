@@ -170,6 +170,13 @@
 .descriptionBody{
     padding: 2px;
     min-height: 20px;
+    color: black;
+}
+.descriptionBody1{
+    padding: 2px;
+    min-height: 20px;
+    color: black;
+    background-color: #00c2e0;
 }
 
 .popup_date{

@@ -16,6 +16,7 @@ const initialState = {
     columnID: '',
     taskID: '',
     description: '',
+    marks: [],
     comments: []
 }
 

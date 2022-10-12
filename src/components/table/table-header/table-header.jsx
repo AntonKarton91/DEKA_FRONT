@@ -8,8 +8,7 @@ import HeaderProfile from "./header-profile/header-profile";
 import {useSelector} from "react-redux";
 
 const TableHeader = () => {
-    const isAuth = useSelector(state => state.Auth.authToken)
-    console.log(isAuth)
+    const isAuth = localStorage.getItem('accessToken')
     return (
         <div className={'header-container'}>
             <HeaderLogo />

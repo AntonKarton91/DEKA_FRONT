@@ -12,6 +12,7 @@ import PopupLogo from './popupLogo';
 const PopupPartList = ({fromGlobalTask, r}) => {
     const dispatch = useDispatch()
     const users = useSelector(state => state.users)
+    const popupData = useSelector(state => state.task)
 
     function ShowForm(elem){
         dispatch(showPartAddFormAction())
@@ -25,8 +26,8 @@ const PopupPartList = ({fromGlobalTask, r}) => {
 
             <div className={classes.popup_options}>
                 {users.map(item => {
-                    if(fromGlobalTask.participants.includes(item.id)){
-                        return (<PopupLogo srcLogo={ item.url } key={item.id}/>)
+                    if(popupData.participants.includes(item.id)){
+                        return (<PopupLogo srcLogo={ item.ava } key={item.id}/>)
                     }
                 })}
                 <div className={classes.plus}>

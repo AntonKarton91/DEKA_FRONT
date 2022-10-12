@@ -4,20 +4,33 @@ import MarkIconComponent from "../../../../../UI1/mark-icon/MarkIcon.Component";
 import cnBind from 'classnames/bind';
 import classes from "../../task_popup.module.css";
 import {addMarkToList, showMarkAddFormAction} from "../../../../../../actions/actionCreaters";
+import {taskDetailEdit} from "../../../../../../actions/asyncActions/listData";
 
 
 const cx = cnBind.bind(classes)
 
 
-const PopupAddMarkForm = ({r}) => {
+const PopupAddMarkForm = ({r, fromGlobalTask}) => {
     const dispatch = useDispatch()
     const shown = useSelector(state => state.task.showMarkAddForm)
     const allMarks = useSelector(state => state.cartMarks)
     const taskPopup = useSelector(state => state.task)
     const cls = cx('popup_add_mark_form', {is_shown: shown})
     const formWindow = useRef(null)
+    const d = useSelector(state => state.task)
+
+    function getMarks(id, list) {
+        if (list.includes(id)){
+            list = list.filter(item => {
+                return item !== id
+            })
+        } else {list.push(id)}
+        return list
+    }
 
     function fun (id){
+        const markList = getMarks(id, fromGlobalTask.marks)
+        // dispatch(taskDetailEdit({...d, name: fromGlobalTask.name, marks: markList, taskDescription: 'd.description'}))
         dispatch(addMarkToList({
             colID: taskPopup.columnID,
             taskID: taskPopup.taskID,
@@ -44,10 +57,10 @@ const PopupAddMarkForm = ({r}) => {
     return (
         <div className={cls} ref={formWindow}>
             <div>Метки</div>
-            {allMarks.map(mark => {
+            {allMarks.map((mark, id) => {
                 return <MarkIconComponent color={mark.color}
                                           child={mark.title}
-                                          key={mark.id}
+                                          key={id}
                                           popup
                                           id={mark.id}
                                           foo={fun}

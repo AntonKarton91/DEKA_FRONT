@@ -17,17 +17,17 @@ const TableField = () => {
 
     useEffect(() => {
         dispatch(fetchList())
-        dispatch(fetchUsersList())
         dispatch(fetchMarksList())
     }, [])
 
+
     function ColumnList() {
-        return  columnList.map((item, index) => {
+        return  columnList.map((item) => {
             return <TableColumn item = {item} key = {item.id}/>})
     }
 
     function addColumn() {
-        const i = {columnName: 'Новая колонка', id: Math.random(), taskList: []}
+        const i = {columnName: 'Новая колонка', taskList: []}
         dispatch(postNewColumn(i))
     }
 
@@ -36,11 +36,12 @@ const TableField = () => {
         <div className='table-container'>
             <img className='bg' src={bgImage} alt=""/>
             <ColumnList/>
+            <div>{taskPopup.isActive}</div>
             <AddColumnButton addCol={addColumn}/>
             {
                 taskPopup.isActive ? <TaskPopup/> : ''
             }
-            
+
 
         </div>
 

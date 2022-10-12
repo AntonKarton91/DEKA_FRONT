@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {getUser} from "../../../tools/pureFunctions/pureFunctions";
 import classes from "./task_comments.module.css";
 import {putNewComment} from "../../../actions/asyncActions/listData";
+import {getUser} from "../../../Hooks/useGetUser";
 
 const TaskCommentAddFormComponent = () => {
+    const [userFromStorage] = useState(localStorage.getItem('userID'))
     const dispatch = useDispatch()
     const users = useSelector(state => state.users)
-    const user = getUser(users, 1)
+    const user = getUser(userFromStorage, users)
     const [commentText, setCommentText] = useState('')
     const taskData = useSelector(state => state.task)
 
@@ -15,7 +16,7 @@ const TaskCommentAddFormComponent = () => {
         if (commentText){
             dispatch(putNewComment({
                 commentText,
-                creater: 1,
+                creater: userFromStorage,
                 task: taskData.taskID
             }))
         }
@@ -25,7 +26,7 @@ const TaskCommentAddFormComponent = () => {
     return (
 
         <div className={classes.addFormContainer}>
-            <img className={classes.image} src={user.url} alt=""/>
+            <img className={classes.image} src={user.ava} alt=""/>
             <div className={classes.forma}>
             <textarea className={classes.commentInput}
                       type="text"

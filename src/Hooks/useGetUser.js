@@ -1,10 +1,7 @@
-import {useSelector} from "react-redux";
-
-export const useGetUser = (id) => {
-    let userList = useSelector(state => state.users)
+export const getUser = (id, userList) => {
     let user
     userList.forEach(u => {
-            if (u.id === id) {
+            if (u.id === Number(id)) {
                 user = u
             }
         })

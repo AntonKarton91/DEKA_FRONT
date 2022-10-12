@@ -51,7 +51,7 @@ const PopupAddPartForm = ({r}) => {
             <div className={classes.form_part_list}>
                 {
                     userList.map(item => {
-                        return <PopupLogo srcLogo={item.url} key={item.id} id={item.id} foo={fun}/>
+                        return <PopupLogo srcLogo={item.ava} key={item.id} id={item.id} foo={fun}/>
                     })
                 }
             </div>         

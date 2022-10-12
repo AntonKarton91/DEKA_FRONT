@@ -5,7 +5,7 @@ import {useSelector} from "react-redux";
 
 
 const HeaderNavMenu = () => {
-    const isAuth = useSelector(state => state.Auth.authToken)
+    const isAuth = localStorage.getItem('accessToken')
     const [linkList, setLinkList] = useState([
                                                 {name: 'Авторизация', link: '/login'},
     ])
@@ -21,6 +21,7 @@ const HeaderNavMenu = () => {
         } else {
             setLinkList([
                 {name: 'Авторизация', link: '/login'},
+                {name: 'Регистрация', link: '/register'},
             ])
         }
     }, [isAuth])

@@ -3,7 +3,7 @@ import {
     addTaskToColumnAction,
     fetchDataToListAction,
     fetchMarksListAction, putNewCommentAction,
-    taskPopupDataAddAction
+    taskPopupDataAddAction, taskPopupDataEditAction
 } from "../actionCreaters";
 import axios from "axios";
 
@@ -26,7 +26,7 @@ export const postNewColumn = (columnData) => {
             columnType: "WORK",
         })
             .then(response => {
-                return dispatch(addColumnAction(columnData))})
+                return dispatch(addColumnAction(response.data))})
             .catch(error => console.log(error))
 
     }
@@ -41,7 +41,8 @@ export const putNewTask = (taskData) => {
             taskPosition: taskData.name.taskPosition,
         })
             .then(response => {
-                return dispatch(addTaskToColumnAction(taskData))})
+                console.log('resp', response.data)
+                return dispatch(addTaskToColumnAction(response.data))})
             .catch(error => console.log(error))
 
     }
@@ -58,12 +59,26 @@ export const taskDetail = (taskData) => {
     }
 }
 
+export const taskDetailEdit = (taskData) => {
+    return function (dispatch){
+        axios.put(`http://127.0.0.1:8000/api/v1/task/${taskData.taskID}/`, {
+            ...taskData
+        })
+            .then(response => {
+                // return dispatch(taskPopupDataAddAction(response.data))
+            })
+            .catch(error => console.log(error))
+
+    }
+}
+
+
+
 export const putNewComment = (commentData) => {
-    console.log(commentData.task)
     return function (dispatch){
         axios.post(`http://127.0.0.1:8000/api/v1/comment/`, {
             task: commentData.task,
-            creater: 1,
+            creater: commentData.creater,
             body: commentData.commentText,
         })
             .then(response => {

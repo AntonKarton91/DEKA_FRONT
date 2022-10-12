@@ -1,10 +1,20 @@
 import {LOGIN_USER, REFRESH_TOKEN} from "../actions/types";
 import jwt_decode from  "jwt-decode";
-
-const initialState = {
-    isAuthenticated: null,
-    user: null,
-    authToken: localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null,
+let initialState = {}
+if (localStorage.getItem('authTokens')) {
+    initialState = {
+        isAuthenticated: true,
+        user: jwt_decode(JSON.parse(localStorage.getItem('authTokens')).access).user_id,
+        authToken: JSON.parse(localStorage.getItem('authTokens')),
+        userData: null
+    }
+} else {
+    initialState = {
+        isAuthenticated: false,
+        user: null,
+        authToken: null,
+        userData: null
+    }
 }
 
 const AuthReducer = (state=initialState, action) => {
@@ -17,8 +27,9 @@ const AuthReducer = (state=initialState, action) => {
             return state
         }
 
-        case REFRESH_TOKEN: {
 
+        case REFRESH_TOKEN: {
+            return {...state, ...action.payload}
         }
         default:
             return state

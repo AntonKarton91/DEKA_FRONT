@@ -1,14 +1,15 @@
 import React from 'react';
 import classes from './participant-list.module.css';
+import {useSelector} from "react-redux";
 
 
 const ParticipantList = ({list, allUserList}) => {
-
+    const userData = useSelector(state => state.users)
     function List() {
-       return allUserList.map(item => {
+       return userData.map(item => {
         if(list.includes(item.id)){
             return <div key={item.id}>
-                <img className={classes.part_icon} src={item.url} alt="" key={item.id}/>
+                <img className={classes.part_icon} src={item.ava} alt="" key={item.id}/>
                 </div>
         }
        })

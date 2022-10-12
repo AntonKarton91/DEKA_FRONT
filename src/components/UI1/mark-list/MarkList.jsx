@@ -7,12 +7,11 @@ import MarkIconComponent from "../mark-icon/MarkIcon.Component";
 
 
 const MarkList = ({markList, list}) => {
-
     return (
             <div className='mark_list'>
-                {getSortedList(markList).map(item => {
+                {getSortedList(markList).map((item, id) => {
                 if(list.includes(item.id)){
-                   return <MarkIconComponent color={item.color} child={item.title} key={item.id} />
+                   return <MarkIconComponent color={item.color} child={item.title} key={id} />
                 }
                 })}
             </div>

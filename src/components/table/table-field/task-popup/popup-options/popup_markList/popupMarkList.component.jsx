@@ -11,6 +11,7 @@ import {showMarkAddFormAction} from "../../../../../../actions/actionCreaters";
 const PopupMarkListComponent = ({fromGlobalTask, r}) => {
     const dispatch = useDispatch()
     const marks = useSelector(state => state.cartMarks)
+    const popupData = useSelector(state => state.task)
 
     function showForm(){
         dispatch(showMarkAddFormAction())
@@ -28,7 +29,7 @@ const PopupMarkListComponent = ({fromGlobalTask, r}) => {
                 })}
                 <div className={classes.plus}>
                     <div onClick={showForm} className={classes.popup_mark_plus} >+</div>
-                    <PopupAddMarkForm r={r}/>
+                    <PopupAddMarkForm r={r} fromGlobalTask={fromGlobalTask}/>
                 </div>
 
             </div>

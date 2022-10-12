@@ -1,22 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import './table-column.css'
 import TaskPreview from "../task-preview/TaskPreview";
 import NewTaskForm from "./new-task-form/NewTaskForm";
-import {useDispatch, useSelector} from 'react-redux';
-import {addTaskToColumnAction, setCartAction} from '../../../../actions/actionCreaters';
+import {useDispatch} from 'react-redux';
+import {setCartAction} from '../../../../actions/actionCreaters';
 import {sortTasks} from "../../../../tools/tasks/sortTasks";
-import {logDOM} from "@testing-library/react";
 import {putNewTask} from "../../../../actions/asyncActions/listData";
 
 const TableColumn = (props) => {
     const dispatch = useDispatch()
     const colName = props.item.columnName
     const [isNewForm, setIsNewForm] = useState(false)
-    const [columnName, setColumnName] = useState(colName)
-    const [data, setData] = useState(props.item.taskList)
+    const [columnName] = useState(colName)
+    const [data] = useState(props.item.taskList)
     const colID = props.item.id
-
-
 
 
     const TaskList = () => {

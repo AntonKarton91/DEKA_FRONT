@@ -1,4 +1,4 @@
-import {fetchUsersListAction} from "../actionCreaters";
+import {fetchUserAction, fetchUsersListAction} from "../actionCreaters";
 import axios from 'axios'
 
 export const fetchUsersList = () => {
@@ -8,3 +8,7 @@ export const fetchUsersList = () => {
             .catch(error => console.log(error))
     }
 }
+
+
+
+

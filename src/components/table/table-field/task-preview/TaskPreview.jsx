@@ -19,19 +19,31 @@ const TaskPreview = ({taskListData, colID, DNDHandler}) => {
     const users = useSelector(state => state.users)
     const marks = useSelector(state => state.cartMarks)
     const {currentCart, targetCart} = useSelector(state => state.DND)
-
     function popupActivate() {
         let date
         if(taskListData.date){
             date = taskListData.date
-        }else date = new Date()
+        } else date = new Date()
         dispatch(taskDetail({...taskListData, date}))
         dispatch(taskPopupActivateAction({
             isActive: true,
             columnID: colID,
             taskID: taskListData.id,
         }))
-    }
+        window.addEventListener('mousedown', open)
+
+        function open (e) {
+            if(!e.target.closest('#popup')) {
+                dispatch(taskPopupActivateAction({
+                    isActive: false,
+                    columnID: '',
+                    taskID: '',
+                    taskDate: new Date(),
+                }))
+                window.removeEventListener('mousedown', open)
+            }}
+
+        }
 
 
     function foo(curTaskPos, targTaskPos){
