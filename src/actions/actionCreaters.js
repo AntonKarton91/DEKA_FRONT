@@ -26,9 +26,7 @@ import {
     TASK_POPUP_DATE_CHANGE
 } from "./types";
 
-export const fetchDataToListAction = (payload) => {
-    return {type: FETCH_DATA_TO_LIST, payload}
-}
+
 export const fetchUsersListAction = (payload) => {
     return {type: FETCH_USERS_LIST, payload}
 }
@@ -46,9 +44,7 @@ export const addColumnAction = (payload) => {
 }
 
 
-export const addTaskToColumnAction = (payload) => {
-    return {type: ADD_TASK_TO_COLUMN, payload}
-}
+
 
 export const taskPopupActivateAction = (payload) => {
     return {type: TASK_POPUP_ACTIVATION, payload}
@@ -57,9 +53,7 @@ export const taskPopupActivateAction = (payload) => {
 export const taskPopupDataAddAction = (payload) => {
     return {type: TASK_POPUP_DATA_ADD, payload}
 }
-// export const taskPopupDataEditAction = (payload) => {
-//     return {type: TASK_POPUP_DATA_EDIT, payload}
-// }
+
 
 export const showPartAddFormAction = (payload) => {
     return {type: SHOW_PART_ADD_FORM, payload}

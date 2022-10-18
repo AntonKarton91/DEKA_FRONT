@@ -10,7 +10,6 @@ export default function NewTaskForm({showForm, clearForm, addTask}) {
         e.preventDefault()
         if(newTaskDescription){
             const desk = {
-                id: Date.now(),
                 name: newTaskDescription,
                 participants: [],
                 marks: []

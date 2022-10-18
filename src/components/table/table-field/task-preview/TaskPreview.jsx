@@ -1,34 +1,38 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '../../../../styles/table-field.css';
 import ParticipantList from "../../../UI1/participant-list/ParticipantList";
 import MarkList from '../../../UI1/mark-list/MarkList';
 import {
     changeTaskPositionAction,
-    resetCartAction,
-    setCartAction,
     taskPopupActivateAction,
-    taskPopupDataAddAction
 } from '../../../../actions/actionCreaters';
 import DatePreviewComponent from "../../../UI1/date-preview/DatePreview.Component";
-import {taskDetail} from "../../../../actions/asyncActions/listData";
+import {dndList, taskDetail} from "../../../../actions/asyncActions/listData";
+import {setCartAction1} from "../../../../reducers/DNDReducer";
+import {find} from "styled-components/test-utils";
+import {dnd} from "../../../../reducers/ColumnReducer";
 
 
-const TaskPreview = ({taskListData, colID, DNDHandler}) => {
+const TaskPreview = ({taskData, colID}) => {
     const dispatch = useDispatch()
     const users = useSelector(state => state.users)
     const marks = useSelector(state => state.cartMarks)
-    const {currentCart, targetCart} = useSelector(state => state.DND)
+    // const {currentCart, targetCart} = useSelector(state => state.DND)
+    const prevCart = useSelector(state => state.DND)
+    const {taskList, columnList} = useSelector(state => state.list)
+
+
     function popupActivate() {
         let date
-        if(taskListData.date){
-            date = taskListData.date
+        if(taskData.date){
+            date = taskData.date
         } else date = new Date()
-        dispatch(taskDetail({...taskListData, date}))
+        dispatch(taskDetail({...taskData, date}))
         dispatch(taskPopupActivateAction({
             isActive: true,
             columnID: colID,
-            taskID: taskListData.id,
+            taskID: taskData.id,
         }))
         window.addEventListener('mousedown', open)
 
@@ -50,11 +54,6 @@ const TaskPreview = ({taskListData, colID, DNDHandler}) => {
         dispatch(changeTaskPositionAction({curTaskPos, targTaskPos}))
     }
 
-    function onDragStartHandler(e, currentCart) {
-        currentCart.colID = colID
-        dispatch(setCartAction({currentCart}))
-    }
-
     function onDragLeaveHandler(e) {
         const elem = e.target.closest('.task-prev')
         elem.style.boxShadow = 'none'
@@ -68,37 +67,81 @@ const TaskPreview = ({taskListData, colID, DNDHandler}) => {
         }
     }
 
-    function onDragEndHandler(e) {
-        foo(currentCart, targetCart)
-        dispatch(resetCartAction())
+    // function onDragEndHandler(e) {
+    //     foo(currentCart, targetCart)
+    //     // dispatch(resetCartAction())
+    //
+    // }
 
+    function onDragStartHandler(e, currentCart) {
+        dispatch(setCartAction1(currentCart))
     }
 
     function dropHandler(e, targetCart) {
-        targetCart.colID = colID
-        dispatch(setCartAction({targetCart}))
+        const orderColFrom = columnList.find(c => c.id === targetCart.column).order
+        console.log(orderColFrom)
+        const indexOfTargetCart = orderColFrom.indexOf(targetCart.id)
+
+        orderColFrom.splice(indexOfTargetCart, 1)
+        console.log(orderColFrom)
+
+
+        const newList = columnList.map(col => {
+            if (col.id === targetCart.column){
+                console.log(col)
+                return {...col, order: orderColFrom}
+            } else return col
+        })
+        // console.log(newList)
+
+        const orderColTo = newList.find(c => c.id === prevCart.column).order
+
+        const indexOfPrevCart = orderColTo.indexOf(prevCart.id)
+        orderColTo.splice(indexOfPrevCart, 0, targetCart.id)
+
+        const newnewList = newList.map(col => {
+            if (col.id === prevCart.column){
+                return {...col, order: orderColTo}
+            } else return col
+        })
+        // console.log(newnewList)
+        prevCart.column = colID
+
+        const carts = {
+            cart: targetCart,
+            colFrom: {
+                id: targetCart.column,
+                orderColFrom
+            },
+            colTo: {
+                id: prevCart.column,
+                orderColTo
+            }
+        }
+        // dispatch(dnd(carts))
+        // dispatch(dndList(carts))}
     }
 
     return (
         <div className='task-prev'
-             pos={taskListData.taskPosition}
-             onDragStart={(e) => onDragStartHandler(e, taskListData)}
-             onDragLeave={(e) => onDragLeaveHandler(e)}
-             onDragOver={(e) => onDragOvertHandler(e)}
-             onDragEnd={(e) => onDragEndHandler(e)}
-             onDrop={e => dropHandler(e, taskListData)}
+             pos={taskData.taskPosition}
+             onDragStart={(e) => onDragStartHandler(e, taskData)}
+             // onDragLeave={(e) => onDragLeaveHandler(e)}
+             // onDragOver={(e) => onDragOvertHandler(e)}
+             // onDragEnd={(e) => onDragEndHandler(e)}
+             onDrop={e => dropHandler(e, taskData)}
              draggable={true}
              onClick={() => popupActivate()}>
 
-            <MarkList markList={ marks } list={ taskListData.marks }/>
+            <MarkList markList={ marks } list={ taskData.marks }/>
             <div>
-                {taskListData.name}
+                {taskData.name}
             </div>
             <div className={'prev-options__container'}>
 
-                <DatePreviewComponent date={ taskListData.date }/>
-                <ParticipantList columnID={ taskListData.id }
-                                 list={ taskListData.participants }
+                <DatePreviewComponent date={ taskData.date }/>
+                <ParticipantList columnID={ taskData.id }
+                                 list={ taskData.participants }
                                  allUserList={users}/>
             </div>
         </div>

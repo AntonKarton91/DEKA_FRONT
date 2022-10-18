@@ -2,7 +2,7 @@ import {
     ADD_COLUMN,
     ADD_MARK_TO_TASK,
     ADD_PARTICIPANT_TO_TASK,
-    ADD_TASK_TO_COLUMN, CHANGE_TASK_POSITION, FETCH_DATA_TO_LIST,
+    CHANGE_TASK_POSITION, FETCH_DATA_TO_LIST,
     SET_DATE_TO_TASK
 } from "../actions/types"
 import {logDOM} from "@testing-library/react";
@@ -19,17 +19,17 @@ export const listReducer = (state = initialState, action) => {
         case ADD_COLUMN:
             return [...state, action.payload]
 
-        case ADD_TASK_TO_COLUMN: {
-            action.payload.date = new Date()
-            return state.map(item => {
-                    if (item.id === action.payload.column) {
-                        const i = item.taskList
-                        return {...item, taskList: [...i, action.payload]}
-                    }
-                    return item
-                }
-            )
-        }
+        // case ADD_TASK_TO_COLUMN: {
+        //     action.payload.date = new Date()
+        //     return state.map(item => {
+        //             if (item.id === action.payload.column) {
+        //                 const i = item.taskList
+        //                 return {...item, taskList: [...i, action.payload]}
+        //             }
+        //             return item
+        //         }
+        //     )
+        // }
         case ADD_PARTICIPANT_TO_TASK: {
             let column = state.find(col => col.id === action.payload.colID)
             const tasks = column.taskList.map(task => {

@@ -6,10 +6,13 @@ import { userReducer } from "./usersReducer";
 import {calendarReducer} from "./calendarReducer";
 import {DNDReducer} from "./DNDReducer";
 import AuthReducer from "./AuthReducer";
+import {ColumnReducer} from "./ColumnReducer";
+import {TaskDetailReducer} from "./TaskDetailReducer";
 
 
 export const rootReducer = combineReducers({
-    list: listReducer,
+    taskDetail: TaskDetailReducer,
+    list: ColumnReducer,
     users: userReducer,
     cartMarks: cartMarksReducer,
     task: taskPopupReducer,

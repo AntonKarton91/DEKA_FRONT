@@ -14,7 +14,7 @@ const initialState = {
     showMarkAddForm: false,
     showCalendar: false,
     columnID: '',
-    taskID: '',
+    taskID: null,
     description: '',
     marks: [],
     comments: []

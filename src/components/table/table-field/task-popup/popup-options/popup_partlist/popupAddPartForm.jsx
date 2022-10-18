@@ -7,11 +7,14 @@ import {
     addParticipantToList,
     showPartAddFormAction
 } from "../../../../../../actions/actionCreaters";
+import {editTaskListAction} from "../../../../../../reducers/TaskListReducer";
+import {taskDetailEditAction} from "../../../../../../reducers/TaskDetailReducer";
+import {taskDetailEdit} from "../../../../../../actions/asyncActions/listData";
 
 
 const cx = cnBind.bind(classes)
 
-const PopupAddPartForm = ({r}) => {
+const PopupAddPartForm = ({taskDetail, r}) => {
     const dispatch = useDispatch()
     const shown = useSelector(state => state.task.showPartAddForm)
     const userList = useSelector(state => state.users)
@@ -19,12 +22,28 @@ const PopupAddPartForm = ({r}) => {
     const cls = cx('popup_add_part_form', {is_shown: shown})
     const formWindow = useRef(null)
 
+    function getParts(id, list) {
+        if (list.includes(id)){
+            list = list.filter(item => {
+                return item !== id
+            })
+        } else {list.push(id)}
+        return list
+    }
+
     function fun (id){
-        dispatch(addParticipantToList({
-            colID: taskPopup.columnID,
-            taskID: taskPopup.taskID,
-            partID: id,
-        }))
+        const partList = getParts(id, taskDetail.participants)
+
+
+        dispatch(editTaskListAction({id: taskDetail.id,
+                                            taskPosition: taskDetail.taskPosition,
+                                            name: taskDetail.name,
+                                            participants: partList,
+                                            marks: taskDetail.marks,
+                                            date: taskDetail.date,
+                                            column: taskDetail.column}))
+        dispatch(taskDetailEditAction({...taskDetail, participants: partList}))
+        dispatch(taskDetailEdit({...taskDetail, participants: partList}))
     }
 
     useEffect(() =>{

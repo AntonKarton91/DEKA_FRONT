@@ -5,19 +5,20 @@ import cnBind from 'classnames/bind';
 import classes from "../../task_popup.module.css";
 import {addMarkToList, showMarkAddFormAction} from "../../../../../../actions/actionCreaters";
 import {taskDetailEdit} from "../../../../../../actions/asyncActions/listData";
+import {taskDetailEditAction} from "../../../../../../reducers/TaskDetailReducer";
+import {editTaskListAction} from "../../../../../../reducers/TaskListReducer";
 
 
 const cx = cnBind.bind(classes)
 
 
-const PopupAddMarkForm = ({r, fromGlobalTask}) => {
+const PopupAddMarkForm = ({r, taskDetail}) => {
     const dispatch = useDispatch()
     const shown = useSelector(state => state.task.showMarkAddForm)
     const allMarks = useSelector(state => state.cartMarks)
     const taskPopup = useSelector(state => state.task)
     const cls = cx('popup_add_mark_form', {is_shown: shown})
     const formWindow = useRef(null)
-    const d = useSelector(state => state.task)
 
     function getMarks(id, list) {
         if (list.includes(id)){
@@ -29,13 +30,16 @@ const PopupAddMarkForm = ({r, fromGlobalTask}) => {
     }
 
     function fun (id){
-        const markList = getMarks(id, fromGlobalTask.marks)
-        // dispatch(taskDetailEdit({...d, name: fromGlobalTask.name, marks: markList, taskDescription: 'd.description'}))
-        dispatch(addMarkToList({
-            colID: taskPopup.columnID,
-            taskID: taskPopup.taskID,
-            markID: id,
-        }))
+        const markList = getMarks(id, taskDetail.marks)
+        dispatch(editTaskListAction({id: taskDetail.id,
+                                            taskPosition: taskDetail.taskPosition,
+                                            name: taskDetail.name,
+                                            participants: taskDetail.participants,
+                                            marks: markList,
+                                            date: taskDetail.date,
+                                            column: taskDetail.column}))
+        dispatch(taskDetailEditAction({...taskDetail, marks: markList}))
+        dispatch(taskDetailEdit({...taskDetail, marks: markList}))
     }
 
     useEffect(() =>{

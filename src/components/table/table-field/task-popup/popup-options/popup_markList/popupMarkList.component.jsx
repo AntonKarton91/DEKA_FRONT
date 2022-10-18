@@ -8,11 +8,9 @@ import PopupAddMarkForm from "./PopupAddMarkForm";
 import {showMarkAddFormAction} from "../../../../../../actions/actionCreaters";
 
 
-const PopupMarkListComponent = ({fromGlobalTask, r}) => {
+const PopupMarkListComponent = ({taskDetail, r}) => {
     const dispatch = useDispatch()
     const marks = useSelector(state => state.cartMarks)
-    const popupData = useSelector(state => state.task)
-
     function showForm(){
         dispatch(showMarkAddFormAction())
     }
@@ -23,13 +21,13 @@ const PopupMarkListComponent = ({fromGlobalTask, r}) => {
 
             <div className={classes.popup_options}>
                 {marks.map(item => {
-                    if(fromGlobalTask.marks.includes(item.id)){
+                    if(taskDetail?.marks?.includes(item.id)){
                         return (<MarkIconComponent color={item.color} child={item.title} key={item.id} popup />)
                     }
                 })}
                 <div className={classes.plus}>
                     <div onClick={showForm} className={classes.popup_mark_plus} >+</div>
-                    <PopupAddMarkForm r={r} fromGlobalTask={fromGlobalTask}/>
+                    <PopupAddMarkForm r={r} taskDetail={taskDetail}/>
                 </div>
 
             </div>

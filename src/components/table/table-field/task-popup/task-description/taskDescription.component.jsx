@@ -5,11 +5,9 @@ import EditDescriptionComponent from "./editDescription.Component";
 import {taskDetailEdit} from "../../../../../actions/asyncActions/listData";
 const ref = createRef();
 
-const TaskDescriptionComponent = ({fromGlobalTask}) => {
+const TaskDescriptionComponent = ({taskDetail}) => {
     const [isActive, setIsActive] = useState(false)
-    const {description} = useSelector(state => state.task)
-    const d = useSelector(state => state.task)
-    const [body, setBody] = useState('')
+    const {taskDescription} = taskDetail
     const dispatch = useDispatch()
 
 
@@ -24,8 +22,7 @@ const TaskDescriptionComponent = ({fromGlobalTask}) => {
                     return
                 }
                 else if (event.target !== e.target) {
-                    dispatch(taskDetailEdit({...d, name: fromGlobalTask.name, taskDescription: ref.current.value}))
-                    console.log(ref.current.value)
+                    dispatch(taskDetailEdit({...taskDetail, taskDescription: ref.current.value}))
                     setBody(ref.current.value)
                     document.removeEventListener('mousedown', close)
                     setIsActive(false)
@@ -34,22 +31,14 @@ const TaskDescriptionComponent = ({fromGlobalTask}) => {
         }
     }
 
-    // function set(e){
-    //     setBody(e.target.value)
-    //     console.log(e.target.value)
-    // }
-
-
-
     function A(){
         if (isActive){
             return (
-                // <input type='textarea' className={classes.descriptionBody} ref={refA} value={body} onChange={event => set(event)}/>
-                <EditDescriptionComponent ref={ref} initBody={description}/>
+                <EditDescriptionComponent ref={ref} initBody={taskDescription}/>
             )
         } else {
             return (
-                <div className={classes.descriptionBody1} onClick={(e)=>bodyClickHandler(e)}>{description}</div>
+                <div className={classes.descriptionBody1} onClick={(e)=>bodyClickHandler(e)}>{taskDescription}</div>
 
             )
         }

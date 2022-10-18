@@ -8,15 +8,25 @@ import PopupOptions from './popup-options/popupOptions';
 import {getTask} from "../../../../tools/pureFunctions/pureFunctions";
 import TaskDescriptionComponent from "./task-description/taskDescription.component";
 import CommentListComponent from "../../../UI1/comment-list-component/Comment-List.Component";
-import {taskDetail} from "../../../../actions/asyncActions/listData";
+import {fetchTaskDetail, taskDetail} from "../../../../actions/asyncActions/listData";
 
 const TaskPopup = ({}) => {
     const dispatch = useDispatch()
     const popupData = useSelector(state => state.task)
+    const taskList = useSelector(state => state.tasks)
+    const [taskData, setTaskData] = useState({})
+    // const data = useSelector(state => state.list)
+    const taskDetail = useSelector(state => state.taskDetail)
+    // const fromGlobalTask = getTask(popupData.columnID, popupData.taskID, data)
 
-    const data = useSelector(state => state.list)
-    const fromGlobalTask = getTask(popupData.columnID, popupData.taskID, data)
+    // function getTask(taskID, taskList){
+    //     return taskList.find((item) => item.id === taskID)
+    // }
 
+    useEffect((taskList) => {
+        dispatch(fetchTaskDetail(popupData.taskID))
+        // setTaskData
+    }, [])
 
     // const fromGlobalTask = getTask(popupData.columnID, popupData.taskID, data)
     const popupRef = useRef()
@@ -46,13 +56,13 @@ const TaskPopup = ({}) => {
                 </div>
                 <div className={classes.popup_inner}>
                     <div className={classes.popup_logo}>
-                        {popupData.title}
+                        {taskDetail.name}
                     </div>
                     <div className={classes.popup_body}>
                         <div className={classes.left_info}>
-                            <PopupOptions fromGlobalTask={fromGlobalTask} r={popupRef}/>
-                            <TaskDescriptionComponent fromGlobalTask={fromGlobalTask} />
-                            <CommentListComponent list={popupData}/>
+                            <PopupOptions taskDetail={taskDetail} r={popupRef}/>
+                            <TaskDescriptionComponent taskDetail={taskDetail} />
+                            {/*<CommentListComponent list={popupData}/>*/}
                         </div>
 
                         <PopupRightMenu />

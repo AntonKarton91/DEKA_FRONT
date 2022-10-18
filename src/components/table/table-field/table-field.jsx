@@ -3,32 +3,33 @@ import '../../../styles/app-styles.scss'
 import TableColumn from "./table-column/tableColumn";
 import bgImage from '../../../static/images/bg1.jpg'
 import {useDispatch, useSelector} from "react-redux";
-import {addColumnAction, fetchMarksListAction} from '../../../actions/actionCreaters';
 import AddColumnButton from './add-column-button/addColumnButton';
 import TaskPopup from './task-popup/TaskPopup';
-import {fetchList, postNewColumn} from "../../../actions/asyncActions/listData";
+import {fetchColumns, fetchList, fetchTaskList, postNewColumn} from "../../../actions/asyncActions/listData";
 import {fetchUsersList} from "../../../actions/asyncActions/usersData";
 import {fetchMarksList} from "../../../actions/asyncActions/marksData";
 
 const TableField = () => {
     const dispatch = useDispatch()
-    const columnList = useSelector(state => state.list)
     const taskPopup = useSelector(state => state.task)
+    const {taskList, columnList} = useSelector(state => state.list)
 
     useEffect(() => {
         dispatch(fetchList())
+        dispatch(fetchTaskList())
         dispatch(fetchMarksList())
     }, [])
 
 
+
     function ColumnList() {
-        return  columnList.map((item) => {
-            return <TableColumn item = {item} key = {item.id}/>})
+
+        return  columnList.map((column) => {
+            return <TableColumn column={column}  taskList={taskList} key={column.id}/>})
     }
 
     function addColumn() {
-        const i = {columnName: 'Новая колонка', taskList: []}
-        dispatch(postNewColumn(i))
+        dispatch(postNewColumn({columnName: 'Новая колонка', tasks: [], columnType: 'WORK'}))
     }
 
     return (
