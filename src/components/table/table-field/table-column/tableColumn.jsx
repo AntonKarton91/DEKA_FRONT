@@ -5,8 +5,9 @@ import NewTaskForm from "./new-task-form/NewTaskForm";
 import {useDispatch, useSelector} from 'react-redux';
 import {setCartAction} from '../../../../actions/actionCreaters';
 import {sortTasks} from "../../../../tools/tasks/sortTasks";
-import {putNewTask} from "../../../../actions/asyncActions/listData";
-import {addTaskIDToColumnAction} from "../../../../reducers/ColumnReducer";
+import {dndList, putNewTask} from "../../../../actions/asyncActions/listData";
+import {addTaskIDToColumnAction, dnd} from "../../../../reducers/ColumnReducer";
+import {setCartAction1} from "../../../../reducers/DNDReducer";
 
 const TableColumn = (props) => {
     const dispatch = useDispatch()
@@ -16,20 +17,50 @@ const TableColumn = (props) => {
     const colID = props.column.id
     const tasksOrder = props.column.order
     const {taskList, columnList} = useSelector(state => state.list)
-
-
-
+    const prevCart = useSelector(state => state.DND)
 
     const TaskList = () => {
-        return taskList.map((taskData) => {
-            if (tasksOrder.includes(taskData.id)){
+        return tasksOrder.map((taskData) => {
+            const item = taskList.find(e => e.id === taskData)
             return(
-
-                <TaskPreview colID={props.column.id} taskData={taskData} prev={taskData.prev} key={taskData.id} />
-            )}
+                <TaskPreview colID={props.column.id} taskData={item} key={item.id} DND={DND}/>
+            )
         })
     }
 
+    function DND(prevCart){
+        // a = prevCart
+
+    }
+
+    function dropHandler(e){
+
+
+        console.log(prevCart)
+        // const c = prevC
+        // console.log(c)
+        // if (props.column.order.length === 0){
+        //     let orderTo = []
+        //     columnList.forEach(col => {
+        //         if (col.id === props.column.id){
+        //             col.order.push(prevC.id)
+        //             orderTo = [...col.order]
+        //         }
+        //     })
+        //     const carts = {
+        //         list: columnList,
+        //         cart: prevC,
+        //         isEmpty: 1,
+        //         colTo: {
+        //             id: props.column.id,
+        //             orderTo
+        //         }
+        //     }
+        //
+        //     // dispatch(dnd(carts))
+        //     dispatch(dndList(carts))
+        // }
+    }
 
     function addTask (data) {
         const payload = {
@@ -55,22 +86,16 @@ const TableColumn = (props) => {
         }
     }
 
-    function dropHandler(e) {
+    function over(e) {
         e.preventDefault()
-        // console.log(11)
-        // // const targetCart = {
-        // //     colID,
-        // //     taskPosition: 0
-        // // }
-        // // dispatch(setCartAction({targetCart}))
     }
-
 
     return (
         <div className='column-container'>
             <div className='column'
-                 draggable={true}
-                 onDragOver={(e) => dropHandler(e)}
+                 // draggable={true}
+                 onDragOver={(e) => over(e)}
+                 onDrop={e => dropHandler(e)}
             >
                 <div className='column-name'>
                     {columnName}

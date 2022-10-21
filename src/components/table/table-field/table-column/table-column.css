@@ -54,6 +54,7 @@
     min-height: 30px;
     background: white;
     margin: 5px;
+    position: relative;
 }
 
 .task-prev:hover{
@@ -78,6 +79,14 @@
     flex-direction: column;
     justify-content: flex-start;
     margin-bottom: 10px;
+}
+.space{
+    width: 95%;
+    height: 30px;
+    position: absolute;
+    /*background-color: #00c2e0;*/
+    top: -15px;
+
 }
 
 .prev-options__container{

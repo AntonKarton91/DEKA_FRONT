@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import '../../../styles/app-styles.scss'
 import TableColumn from "./table-column/tableColumn";
-import bgImage from '../../../static/images/bg1.jpg'
+import bgImage from '../../../static/images/bg2.jpg'
 import {useDispatch, useSelector} from "react-redux";
 import AddColumnButton from './add-column-button/addColumnButton';
 import TaskPopup from './task-popup/TaskPopup';
@@ -29,7 +29,7 @@ const TableField = () => {
     }
 
     function addColumn() {
-        dispatch(postNewColumn({columnName: 'Новая колонка', tasks: [], columnType: 'WORK'}))
+        dispatch(postNewColumn({columnName: 'Новая колонка', tasks: [], columnType: 'WORK', order: []}))
     }
 
     return (

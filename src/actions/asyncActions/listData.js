@@ -8,6 +8,7 @@ export const fetchList = () => {
         fetch("http://127.0.0.1:8000/api/v1/list/")
             .then(response => response.json())
             .then(json => {
+                console.log(json)
                 dispatch(fetchDataToListAction(json))
             })
             .catch(error => console.log(error))
@@ -19,6 +20,7 @@ export const postNewColumn = (columnData) => {
             ...columnData
         })
             .then(response => {
+                console.log(response.data)
                 return dispatch(addNewColumnAction(response.data))
             })
             .catch(error => console.log(error))
@@ -34,7 +36,7 @@ export const putNewTask = (taskData) => {
             column: taskData.id,
         })
             .then(response => {
-                console.log(response.data)
+
                 return dispatch(addTaskToColumnAction(response.data))
             })
             .catch(error => console.log(error))
@@ -42,7 +44,6 @@ export const putNewTask = (taskData) => {
     }
 }
 export const dndList = (taskData) => {
-    console.log(taskData)
     return function (dispatch){
         axios.post(`http://127.0.0.1:8000/api/v1/dnd/`, {
             ...taskData

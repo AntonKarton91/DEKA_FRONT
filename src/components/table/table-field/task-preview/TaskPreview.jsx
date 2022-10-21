@@ -14,11 +14,12 @@ import {find} from "styled-components/test-utils";
 import {dnd} from "../../../../reducers/ColumnReducer";
 
 
-const TaskPreview = ({taskData, colID}) => {
+const TaskPreview = ({taskData, colID, DND}) => {
     const dispatch = useDispatch()
     const users = useSelector(state => state.users)
     const marks = useSelector(state => state.cartMarks)
     // const {currentCart, targetCart} = useSelector(state => state.DND)
+    const [dndCart, setDNDCart] = useState({})
     const prevCart = useSelector(state => state.DND)
     const {taskList, columnList} = useSelector(state => state.list)
 
@@ -50,13 +51,10 @@ const TaskPreview = ({taskData, colID}) => {
         }
 
 
-    function foo(curTaskPos, targTaskPos){
-        dispatch(changeTaskPositionAction({curTaskPos, targTaskPos}))
-    }
-
     function onDragLeaveHandler(e) {
         const elem = e.target.closest('.task-prev')
         elem.style.boxShadow = 'none'
+        elem.style.marginTop = '0'
     }
 
     function onDragOvertHandler(e) {
@@ -64,63 +62,64 @@ const TaskPreview = ({taskData, colID}) => {
         if(e.target.closest('.task-prev')) {
             const elem = e.target.closest('.task-prev')
             elem.style.boxShadow = '0 4px 3px gray'
+
         }
     }
 
-    // function onDragEndHandler(e) {
-    //     foo(currentCart, targetCart)
-    //     // dispatch(resetCartAction())
-    //
-    // }
+
 
     function onDragStartHandler(e, currentCart) {
+        DND(currentCart)
         dispatch(setCartAction1(currentCart))
+        setDNDCart(currentCart)
     }
 
     function dropHandler(e, targetCart) {
-        const orderColFrom = columnList.find(c => c.id === targetCart.column).order
-        console.log(orderColFrom)
-        const indexOfTargetCart = orderColFrom.indexOf(targetCart.id)
-
-        orderColFrom.splice(indexOfTargetCart, 1)
-        console.log(orderColFrom)
-
-
-        const newList = columnList.map(col => {
-            if (col.id === targetCart.column){
-                console.log(col)
-                return {...col, order: orderColFrom}
-            } else return col
-        })
-        // console.log(newList)
-
-        const orderColTo = newList.find(c => c.id === prevCart.column).order
-
-        const indexOfPrevCart = orderColTo.indexOf(prevCart.id)
-        orderColTo.splice(indexOfPrevCart, 0, targetCart.id)
-
-        const newnewList = newList.map(col => {
-            if (col.id === prevCart.column){
-                return {...col, order: orderColTo}
-            } else return col
-        })
-        // console.log(newnewList)
-        prevCart.column = colID
-
-        const carts = {
-            cart: targetCart,
-            colFrom: {
-                id: targetCart.column,
-                orderColFrom
-            },
-            colTo: {
-                id: prevCart.column,
-                orderColTo
+        if (e.target.closest('.task-prev')){
+            if (prevCart.id === targetCart.id){
+                DND({})
+                dispatch(setCartAction1({}))
+                setDNDCart({})
+                return
             }
-        }
-        // dispatch(dnd(carts))
-        // dispatch(dndList(carts))}
-    }
+            let orderFrom = []
+            let orderTo = []
+            columnList.forEach(col => {
+                if (col.id === prevCart.column){
+                    const indexOfTargetCart = col.order.indexOf(prevCart.id)
+                    col.order = col.order.filter((i, ind) => ind !== indexOfTargetCart)
+                    orderFrom = [...col.order]
+                }
+            })
+            columnList.forEach(col => {
+                if (col.id === targetCart.column){
+                    const indexOfTargCart = col.order.indexOf(targetCart.id)
+                    col.order.splice(indexOfTargCart, 0, prevCart.id)
+                    orderTo = [...col.order]
+
+                }
+            })
+            const carts = {
+                list: columnList,
+                cart: prevCart,
+                isEmpty: 0,
+                colFrom: {
+                    id: prevCart.column,
+                    orderFrom
+                },
+                colTo: {
+                    id: targetCart.column,
+                    orderTo
+                }
+            }
+
+            dispatch(dnd(carts))
+            dispatch(dndList(carts))
+            dispatch(setCartAction1({}))
+            DND({})
+            setDNDCart({})
+        }}
+
 
     return (
         <div className='task-prev'
@@ -132,7 +131,7 @@ const TaskPreview = ({taskData, colID}) => {
              onDrop={e => dropHandler(e, taskData)}
              draggable={true}
              onClick={() => popupActivate()}>
-
+            {/*<div className='space' onDrop={e => dropHandler(e, taskData)}></div>*/}
             <MarkList markList={ marks } list={ taskData.marks }/>
             <div>
                 {taskData.name}

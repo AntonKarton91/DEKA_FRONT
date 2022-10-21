@@ -16,7 +16,7 @@ export const DNDReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case SET_CART1:
-            console.log(action.payload)
+            // console.log(action.payload)
             return action.payload
 
 

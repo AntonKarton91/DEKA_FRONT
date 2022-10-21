@@ -30,8 +30,9 @@ export const ColumnReducer = (state = initialState, action) => {
         case GET_LIST: {
             const columns = action.payload.columns
             const newColumns = columns.map(col => {
-                    col.order  = JSON.parse(col.order)
-                return {...col, order: col.order}
+                if (!col.order){
+                    return {...col, order: []}
+                } else return col
             })
 
             return {taskList: action.payload.tasks , columnList: newColumns}
@@ -41,14 +42,9 @@ export const ColumnReducer = (state = initialState, action) => {
         }
         case ADD_TASK_TO_COLUMN: {
             const task = action.payload.task
-            console.log(action.payload.order)
-            console.log(JSON.parse(action.payload.order))
-
-            const order = JSON.parse(action.payload.order)
-
             const newColList = state.columnList.map(col => {
                 if (task.column === col.id) {
-                    return {...col, order: order}
+                    return {...col, order: action.payload.order}
                 } else return col
             })
             return {columnList: newColList, taskList: [...state.taskList, task]}
@@ -56,35 +52,13 @@ export const ColumnReducer = (state = initialState, action) => {
         }
 
         case DND: {
-
-            // {
-            //     cart: targetCart,
-            //
-            //         colFrom: {
-            //     id: targetCart.column,
-            //         orderColFrom
-            // },
-            //     colTo: {
-            //         id: prevCart.column,
-            //             orderColTo
-            //     }
-            // }
-            const {cart, colFrom,  colTo} = action.payload
-            // console.log(colFrom.orderColFrom)
-            // console.log(colTo.orderColTo)
-            const newTaskList = state.taskList.map(task => {
-                if (task.id === cart.id){
-                    // console.log(colTo)
-                    return {...task, column: cart.column}
-                } else return task
+            const newTaskList = [...state.taskList]
+            newTaskList.forEach(item => {
+                if  (item.id === action.payload.cart.id){
+                    item.column = action.payload.colTo.id
+                }
             })
-            const newColList = state.columnList.map(col => {
-                if (col.id === colFrom.id){
-                    return {...col, order: colTo.orderColTo}
-                } else if (col.id === colTo.id){
-                    return {...col, order: colFrom.orderColFrom}
-                } else return col})
-            return {columnList: newColList, taskList: newTaskList}
+            return {columnList: action.payload.list, taskList: newTaskList}
         }
 
 
