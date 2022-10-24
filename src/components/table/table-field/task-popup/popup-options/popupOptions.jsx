@@ -13,7 +13,7 @@ const PopupOptions = ({taskDetail, r}) => {
         <div className={classes.popup_options}>
             <PopupPartList taskDetail={taskDetail} r={r}/>
             <PopupMarkListComponent taskDetail={taskDetail} r={r}/>
-            <PopupDateComponent r={r} />
+            <PopupDateComponent r={r} taskDetail={taskDetail}/>
 
         </div>
     )

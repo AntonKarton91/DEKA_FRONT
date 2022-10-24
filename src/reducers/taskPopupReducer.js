@@ -42,12 +42,7 @@ export const taskPopupReducer = (state=initialState, action) => {
             }
         }
 
-        case TASK_POPUP_COMMENT_ADD: {
-            return {...state,
-                comments: [...state.comments, action.payload],
 
-            }
-        }
         case SHOW_PART_ADD_FORM: {
             return {...state, 
                 showPartAddForm: !state.showPartAddForm

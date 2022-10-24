@@ -6,7 +6,8 @@ import classes from "../../task_popup.module.css";
 import {addMarkToList, showMarkAddFormAction} from "../../../../../../actions/actionCreaters";
 import {taskDetailEdit} from "../../../../../../actions/asyncActions/listData";
 import {taskDetailEditAction} from "../../../../../../reducers/TaskDetailReducer";
-import {editTaskListAction} from "../../../../../../reducers/TaskListReducer";
+import {editTaskListAction} from "../../../../../../reducers/ColumnReducer";
+
 
 
 const cx = cnBind.bind(classes)

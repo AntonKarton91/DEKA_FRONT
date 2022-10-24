@@ -7,6 +7,7 @@ import {getUser} from "../../../Hooks/useGetUser";
 
 
 const TaskCommentItemComponent = ({commentData}) => {
+    console.log(commentData)
     const users = useSelector(state => state.users)
     const user = getUser(commentData.creater, users)
 

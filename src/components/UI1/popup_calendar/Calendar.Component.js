@@ -13,10 +13,13 @@ import cnBind from "classnames/bind";
 import FormButtonComponent from "../form-button/FormButton.Component";
 import CalendarButtonComponent from "../inner-calendar-button/CalendarButton.Component";
 import {parseDate} from "../../../tools/calendar/parseDate";
+import {editTaskListAction} from "../../../reducers/ColumnReducer";
+import {taskDetailEditAction} from "../../../reducers/TaskDetailReducer";
+import {taskDetailEdit} from "../../../actions/asyncActions/listData";
 
 const cx = cnBind.bind(classes)
 
-const CalendarComponent = ({r}) => {
+const CalendarComponent = ({r, taskDetail}) => {
     const {selectedDate, initialDate} = useSelector(state => state.calendar)
     const shown = useSelector(state => state.task.showCalendar)
     const formWindow = useRef(null)
@@ -56,13 +59,23 @@ const CalendarComponent = ({r}) => {
         const hour = Number(date.split(':')[0])
         const min = Number(date.split(':')[1])
         const newDate = new Date(selectedDate.setHours(hour, min))
-        dispatch(changeTaskDateAction(newDate))
-        dispatch(setDateToListAction({
-            colID: taskPopup.columnID,
-            taskID: taskPopup.taskID,
-            taskDate: newDate,
-        }))
-        dispatch(taskPopupDateChangeAction(newDate))
+        // dispatch(changeTaskDateAction(newDate))
+        // dispatch(setDateToListAction({
+        //     colID: taskPopup.columnID,
+        //     taskID: taskPopup.taskID,
+        //     taskDate: newDate,
+        // }))
+        // dispatch(taskPopupDateChangeAction(newDate))
+
+        dispatch(editTaskListAction({id: taskDetail.id,
+                                            taskPosition: taskDetail.taskPosition,
+                                            name: taskDetail.name,
+                                            participants: taskDetail.participants,
+                                            marks: taskDetail.marks,
+                                            date: newDate,
+                                            column: taskDetail.column}))
+        dispatch(taskDetailEditAction({...taskDetail, date: newDate}))
+        dispatch(taskDetailEdit({...taskDetail, date: newDate}))
         dispatch(showCalendarAction())
     }
 

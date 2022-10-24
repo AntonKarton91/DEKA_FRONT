@@ -15,17 +15,13 @@ const TaskPopup = ({}) => {
     const popupData = useSelector(state => state.task)
     const taskList = useSelector(state => state.tasks)
     const [taskData, setTaskData] = useState({})
-    // const data = useSelector(state => state.list)
     const taskDetail = useSelector(state => state.taskDetail)
-    // const fromGlobalTask = getTask(popupData.columnID, popupData.taskID, data)
+    console.log(taskDetail,  321321321321)
 
-    // function getTask(taskID, taskList){
-    //     return taskList.find((item) => item.id === taskID)
-    // }
 
     useEffect((taskList) => {
         dispatch(fetchTaskDetail(popupData.taskID))
-        // setTaskData
+
     }, [])
 
     // const fromGlobalTask = getTask(popupData.columnID, popupData.taskID, data)
@@ -62,7 +58,7 @@ const TaskPopup = ({}) => {
                         <div className={classes.left_info}>
                             <PopupOptions taskDetail={taskDetail} r={popupRef}/>
                             <TaskDescriptionComponent taskDetail={taskDetail} />
-                            {/*<CommentListComponent list={popupData}/>*/}
+                            <CommentListComponent list={taskDetail}/>
                         </div>
 
                         <PopupRightMenu />

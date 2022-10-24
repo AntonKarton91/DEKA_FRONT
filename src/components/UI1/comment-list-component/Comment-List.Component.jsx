@@ -4,21 +4,22 @@ import classes from './task_comments.module.css'
 import TaskCommentAddFormComponent from "./TaskCommentAddForm.Component";
 
 
-const CommentListComponent = ({list}) => {
+const CommentListComponent = ({list=[]}) => {
 
     function sortedByDate(a,b) {
         if (a.createDate > b.createDate){
             return -1
         } else return 1
     }
-
     return (
         <div className={classes.list_container}>
             <div className={classes.title}>Действия</div>
             <TaskCommentAddFormComponent />
-            {list.comments.sort(sortedByDate).map((comment, index) => {
+            {
+                list.comments ? list.comments.sort(sortedByDate).map((comment, index) => {
                 return <TaskCommentItemComponent key={index} commentData={comment}/>
-            })}
+            }) : null
+            }
         </div>
     );
 };

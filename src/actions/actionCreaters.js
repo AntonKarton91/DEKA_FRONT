@@ -83,9 +83,7 @@ export const taskPopupDateChangeAction = (payload) => {
     return {type: TASK_POPUP_DATE_CHANGE, payload}
 }
 
-export const putNewCommentAction = (payload) => {
-    return {type: TASK_POPUP_COMMENT_ADD, payload}
-}
+
 
 
 

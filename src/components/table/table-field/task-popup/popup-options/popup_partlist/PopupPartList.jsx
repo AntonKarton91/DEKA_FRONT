@@ -15,7 +15,6 @@ const PopupPartList = ({taskDetail, r}) => {
 
     function ShowForm(){
         dispatch(showPartAddFormAction())
-
     }
 
 

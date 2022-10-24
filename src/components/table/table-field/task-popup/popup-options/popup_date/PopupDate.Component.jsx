@@ -6,7 +6,7 @@ import CalendarComponent from "../../../../../UI1/popup_calendar/Calendar.Compon
 import {MONTH} from "../../../../../../tools/constants";
 
 
-const PopupDateComponent = ({r}) => {
+const PopupDateComponent = ({r, taskDetail}) => {
     const dispatch = useDispatch()
     let { taskDate } = useSelector(state => state.task)
     const {selectedDate} = useSelector(state => state.calendar)
@@ -35,7 +35,7 @@ const PopupDateComponent = ({r}) => {
                      className={classes.popup_date}
                     >{getTaskDate()}
                 </div>
-                <CalendarComponent r={r}/>
+                <CalendarComponent r={r} taskDetail={taskDetail}/>
             </div>
         </div>
     )

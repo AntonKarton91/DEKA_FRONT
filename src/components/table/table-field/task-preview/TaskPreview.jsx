@@ -1,28 +1,82 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '../../../../styles/table-field.css';
 import ParticipantList from "../../../UI1/participant-list/ParticipantList";
 import MarkList from '../../../UI1/mark-list/MarkList';
-import {
-    changeTaskPositionAction,
-    taskPopupActivateAction,
-} from '../../../../actions/actionCreaters';
+import {taskPopupActivateAction,} from '../../../../actions/actionCreaters';
 import DatePreviewComponent from "../../../UI1/date-preview/DatePreview.Component";
 import {dndList, taskDetail} from "../../../../actions/asyncActions/listData";
-import {setCartAction1} from "../../../../reducers/DNDReducer";
-import {find} from "styled-components/test-utils";
 import {dnd} from "../../../../reducers/ColumnReducer";
 
+import {useDrag, useDrop} from "react-dnd";
 
-const TaskPreview = ({taskData, colID, DND}) => {
+
+const TaskPreview = ({taskData, colID,}) => {
     const dispatch = useDispatch()
     const users = useSelector(state => state.users)
     const marks = useSelector(state => state.cartMarks)
-    // const {currentCart, targetCart} = useSelector(state => state.DND)
-    const [dndCart, setDNDCart] = useState({})
-    const prevCart = useSelector(state => state.DND)
-    const {taskList, columnList} = useSelector(state => state.list)
+    const {columnList} = useSelector(state => state.list)
 
+    const ref = useRef()
+
+
+    const [{isDragging}, drag,] = useDrag(() => ({
+        type: "CART",
+        item: { id: taskData },
+        collect: (monitor) => ({
+            isDragging: !!monitor.isDragging(),
+        }),
+    }))
+
+
+    const [{isOver}, drop] = useDrop(() => ({
+        accept: 'CART',
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver(),
+        }),
+
+        drop: (item, monitor) => {
+            const rect = ref.current.getBoundingClientRect()
+            const middleRect = rect.top + ((rect.bottom - rect.top) / 2)
+            const diff = monitor.getClientOffset().y - middleRect
+
+            if (diff>=0){
+                dropToColumn(item.id, 'post')
+
+            } else {
+                dropToColumn(item.id, 'prev')
+            }
+
+        },
+
+        hover: (item, monitor) => {
+            if (!ref.current){
+                return
+            }
+            if (item.id.id === taskData.id){
+                return
+            }
+            const rect = ref.current.getBoundingClientRect()
+            const middleRect = rect.top + ((rect.bottom - rect.top) / 2)
+            const diff = monitor.getClientOffset().y - middleRect
+
+            if (diff>=0){
+                ref.current.style.paddingTop = '0'
+                ref.current.style.paddingBottom = `70px`
+
+            } else {
+                ref.current.style.paddingBottom = '0'
+                ref.current.style.paddingTop = '70px'
+            }
+        }
+    }))
+    drag(drop(ref))
+
+    useEffect(() => {
+        if (ref.current && !isOver) {
+            ref.current.style.padding = '0'
+        }
+    }, [isOver])
 
     function popupActivate() {
         let date
@@ -50,98 +104,70 @@ const TaskPreview = ({taskData, colID, DND}) => {
 
         }
 
-
-    function onDragLeaveHandler(e) {
-        const elem = e.target.closest('.task-prev')
-        elem.style.boxShadow = 'none'
-        elem.style.marginTop = '0'
-    }
-
-    function onDragOvertHandler(e) {
-        e.preventDefault()
-        if(e.target.closest('.task-prev')) {
-            const elem = e.target.closest('.task-prev')
-            elem.style.boxShadow = '0 4px 3px gray'
+    function dropToColumn(dropCartID, option){
+        if (dropCartID.id === taskData.id){
+            return
+        }
+        const prevCartColumn = dropCartID.column
+        let orderFrom = []
+        let orderTo = []
+        columnList.forEach(col => {
+            if (col.id === dropCartID.column){
+                const cartInOrderID = col.order.indexOf(dropCartID.id)
+                col.order.splice(cartInOrderID, 1)
+                orderFrom = col.order
+            }
+        })
+        if (option === 'prev'){
+            columnList.forEach(col => {
+                if (col.id === colID){
+                    const cartInOrderID = col.order.indexOf(taskData.id)
+                    col.order.splice(cartInOrderID, 0, dropCartID.id)
+                    orderTo = col.order
+                }
+            })
+        } else if (option === 'post'){
+            columnList.forEach(col => {
+                if (col.id === colID){
+                    const cartInOrderID = col.order.indexOf(taskData.id)
+                    col.order.splice(cartInOrderID+1, 0, dropCartID.id)
+                    orderTo = col.order
+                }
+            })
 
         }
-    }
-
-
-
-    function onDragStartHandler(e, currentCart) {
-        DND(currentCart)
-        dispatch(setCartAction1(currentCart))
-        setDNDCart(currentCart)
-    }
-
-    function dropHandler(e, targetCart) {
-        if (e.target.closest('.task-prev')){
-            if (prevCart.id === targetCart.id){
-                DND({})
-                dispatch(setCartAction1({}))
-                setDNDCart({})
-                return
+        dropCartID.column = colID
+        const carts = {
+            list: columnList,
+            cart: dropCartID,
+            colFrom: {
+                id: prevCartColumn,
+                orderFrom
+            },
+            colTo: {
+                id: colID,
+                orderTo
             }
-            let orderFrom = []
-            let orderTo = []
-            columnList.forEach(col => {
-                if (col.id === prevCart.column){
-                    const indexOfTargetCart = col.order.indexOf(prevCart.id)
-                    col.order = col.order.filter((i, ind) => ind !== indexOfTargetCart)
-                    orderFrom = [...col.order]
-                }
-            })
-            columnList.forEach(col => {
-                if (col.id === targetCart.column){
-                    const indexOfTargCart = col.order.indexOf(targetCart.id)
-                    col.order.splice(indexOfTargCart, 0, prevCart.id)
-                    orderTo = [...col.order]
-
-                }
-            })
-            const carts = {
-                list: columnList,
-                cart: prevCart,
-                isEmpty: 0,
-                colFrom: {
-                    id: prevCart.column,
-                    orderFrom
-                },
-                colTo: {
-                    id: targetCart.column,
-                    orderTo
-                }
-            }
-
-            dispatch(dnd(carts))
-            dispatch(dndList(carts))
-            dispatch(setCartAction1({}))
-            DND({})
-            setDNDCart({})
-        }}
-
+        }
+        dispatch(dnd(carts))
+        dispatch(dndList(carts))
+    }
 
     return (
-        <div className='task-prev'
-             pos={taskData.taskPosition}
-             onDragStart={(e) => onDragStartHandler(e, taskData)}
-             // onDragLeave={(e) => onDragLeaveHandler(e)}
-             // onDragOver={(e) => onDragOvertHandler(e)}
-             // onDragEnd={(e) => onDragEndHandler(e)}
-             onDrop={e => dropHandler(e, taskData)}
-             draggable={true}
+        <div ref={ref}
+             style={{display: isDragging ? 'none' : 'block', }}
              onClick={() => popupActivate()}>
-            {/*<div className='space' onDrop={e => dropHandler(e, taskData)}></div>*/}
-            <MarkList markList={ marks } list={ taskData.marks }/>
-            <div>
-                {taskData.name}
-            </div>
-            <div className={'prev-options__container'}>
-
-                <DatePreviewComponent date={ taskData.date }/>
-                <ParticipantList columnID={ taskData.id }
-                                 list={ taskData.participants }
-                                 allUserList={users}/>
+            <div className='task-prev'>
+                <MarkList markList={ marks } list={ taskData.marks }/>
+                <div>
+                    {taskData.name}
+                </div>
+                <div className={'prev-options__container'}>
+                    <DatePreviewComponent date={ taskData.date }/>
+                    <ParticipantList columnID={ taskData.id }
+                                     list={ taskData.participants }
+                                     allUserList={users}/>
+                </div>
             </div>
         </div>
     );

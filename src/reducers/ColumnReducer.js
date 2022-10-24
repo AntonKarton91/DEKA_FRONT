@@ -23,6 +23,9 @@ export const addNewColumnAction = (payload) => {
 export const dnd = (payload) => {
     return {type: DND, payload}
 }
+export const editTaskListAction = (payload) => {
+    return {type: EDIT_TASKLIST, payload}
+}
 
 
 export const ColumnReducer = (state = initialState, action) => {
@@ -60,6 +63,28 @@ export const ColumnReducer = (state = initialState, action) => {
             })
             return {columnList: action.payload.list, taskList: newTaskList}
         }
+
+        case EDIT_TASKLIST: {
+            const newTaskList = [...state.taskList]
+            newTaskList.forEach(item => {
+                if  (item.id === action.payload.id){
+                    item.participants = action.payload.participants
+                    item.marks = action.payload.marks
+                    item.date = action.payload.date
+                }
+            })
+            return {columnList: state.columnList, taskList: newTaskList}
+        }
+
+
+        //     const newState = state.map(ts => {
+        //         if(ts.id === action.payload.id){
+        //             return {...action.payload}
+        //         } else return ts
+        //     })
+        //     return newState
+        // }
+
 
 
 

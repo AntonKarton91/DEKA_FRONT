@@ -1,6 +1,6 @@
 
 import axios from "axios";
-import {getTaskDetailAction} from "../../reducers/TaskDetailReducer";
+import {getTaskDetailAction, putNewCommentAction,} from "../../reducers/TaskDetailReducer";
 import {addNewColumnAction, addTaskToColumnAction, fetchDataToListAction} from "../../reducers/ColumnReducer";
 
 export const fetchList = () => {
@@ -8,7 +8,6 @@ export const fetchList = () => {
         fetch("http://127.0.0.1:8000/api/v1/list/")
             .then(response => response.json())
             .then(json => {
-                console.log(json)
                 dispatch(fetchDataToListAction(json))
             })
             .catch(error => console.log(error))
@@ -34,6 +33,7 @@ export const putNewTask = (taskData) => {
             name: taskData.name,
             taskDescription: '',
             column: taskData.id,
+            date: taskData.date
         })
             .then(response => {
 
@@ -91,7 +91,7 @@ export const putNewComment = (commentData) => {
             body: commentData.commentText,
         })
             .then(response => {
-                // return dispatch(putNewCommentAction(response.data))
+                return dispatch(putNewCommentAction(response.data))
                 })
             .catch(error => console.log(error))
 

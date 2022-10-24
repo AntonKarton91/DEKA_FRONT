@@ -7,9 +7,9 @@ import {
     addParticipantToList,
     showPartAddFormAction
 } from "../../../../../../actions/actionCreaters";
-import {editTaskListAction} from "../../../../../../reducers/TaskListReducer";
 import {taskDetailEditAction} from "../../../../../../reducers/TaskDetailReducer";
 import {taskDetailEdit} from "../../../../../../actions/asyncActions/listData";
+import {editTaskListAction} from "../../../../../../reducers/ColumnReducer";
 
 
 const cx = cnBind.bind(classes)
@@ -36,12 +36,12 @@ const PopupAddPartForm = ({taskDetail, r}) => {
 
 
         dispatch(editTaskListAction({id: taskDetail.id,
-                                            taskPosition: taskDetail.taskPosition,
-                                            name: taskDetail.name,
-                                            participants: partList,
-                                            marks: taskDetail.marks,
-                                            date: taskDetail.date,
-                                            column: taskDetail.column}))
+                                    taskPosition: taskDetail.taskPosition,
+                                    name: taskDetail.name,
+                                    participants: partList,
+                                    marks: taskDetail.marks,
+                                    date: taskDetail.date,
+                                    column: taskDetail.column}))
         dispatch(taskDetailEditAction({...taskDetail, participants: partList}))
         dispatch(taskDetailEdit({...taskDetail, participants: partList}))
     }

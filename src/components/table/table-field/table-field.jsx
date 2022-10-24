@@ -9,6 +9,10 @@ import {fetchColumns, fetchList, fetchTaskList, postNewColumn} from "../../../ac
 import {fetchUsersList} from "../../../actions/asyncActions/usersData";
 import {fetchMarksList} from "../../../actions/asyncActions/marksData";
 
+
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
 const TableField = () => {
     const dispatch = useDispatch()
     const taskPopup = useSelector(state => state.task)
@@ -35,17 +39,16 @@ const TableField = () => {
     return (
 
         <div className='table-container'>
-            <img className='bg' src={bgImage} alt=""/>
-            <ColumnList/>
-            <div>{taskPopup.isActive}</div>
-            <AddColumnButton addCol={addColumn}/>
-            {
-                taskPopup.isActive ? <TaskPopup/> : ''
-            }
-
-
+            <DndProvider backend={HTML5Backend}>
+                <img className='bg' src={bgImage} alt=""/>
+                <ColumnList/>
+                <div>{taskPopup.isActive}</div>
+                <AddColumnButton addCol={addColumn}/>
+                {
+                    taskPopup.isActive ? <TaskPopup/> : ''
+                }
+            </DndProvider>
         </div>
-
     );
 };
 
