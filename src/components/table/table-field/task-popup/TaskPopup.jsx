@@ -16,7 +16,6 @@ const TaskPopup = ({}) => {
     const taskList = useSelector(state => state.tasks)
     const [taskData, setTaskData] = useState({})
     const taskDetail = useSelector(state => state.taskDetail)
-    console.log(taskDetail,  321321321321)
 
 
     useEffect((taskList) => {
